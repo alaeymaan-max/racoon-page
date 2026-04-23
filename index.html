@@ -1,11 +1,3 @@
-Kod yang anda berikan adalah hasil "render" dari aplikasi Next.js (kemungkinan
-dari v0.app) yang mengandungi banyak skrip teknikal dan data hidrasi yang tidak
-diperlukan untuk fail HTML statik yang bersih.
-
-Berikut adalah versi index.html yang telah dibersihkan, distruktur semula dengan
-betul, dan dilengkapi dengan fungsi JavaScript (untuk carian, filter, dan butang
-salin kod) supaya ia berfungsi sepenuhnya sebagai satu laman web yang mantap.
-
 <!DOCTYPE html>
 <html lang="ms">
 <head>
@@ -14,75 +6,32 @@ salin kod) supaya ia berfungsi sepenuhnya sebagai satu laman web yang mantap.
     <title>DAUSDK — Platform Daus Guna. Semua Code + Promo. Satu Page.</title>
     <meta name="description" content="Semua platform invest, crypto, gold, dan savings yang Daus guna sendiri — lengkap dengan referral code, link, dan promo terkini.">
     
-    <!-- Google Fonts -->
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS for Layout (CDN) -->
+    <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
         :root {
-            --yellow: #FFE500;
-            --bg: #0A0A0A;
-            --paper: #F5F0E4;
-            --ink: #1A1A1A;
-            --ink-soft: #A1A1AA;
-            --ink-dim: #3F3F46;
-            --red: #FF3B30;
+            --bg: #0a0a0a;
+            --bg-card: #141414;
+            --yellow: #ffe500;
+            --paper: #f5f0e4;
+            --ink-soft: #a1a1aa;
+            --ink-dim: #3f3f46;
+            --red: #ff3b30;
         }
 
         body {
             background-color: var(--bg);
             color: var(--paper);
             font-family: 'Archivo', sans-serif;
+            scroll-behavior: smooth;
         }
 
         .font-anton { font-family: 'Anton', sans-serif; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
-
-        /* Marquee Animation */
-        .alert-bar {
-            background: var(--yellow);
-            color: var(--bg);
-            overflow: hidden;
-            white-space: nowrap;
-            padding: 8px 0;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 0.1em;
-        }
-
-        .alert-track {
-            display: inline-block;
-            animation: marquee 30s linear infinite;
-        }
-
-        @keyframes marquee {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-
-        /* Platform Grid Styling */
-        .plat-card {
-            border: 1px solid var(--ink-dim);
-            transition: all 0.3s ease;
-        }
-
-        .plat-card:hover {
-            border-color: var(--yellow);
-            transform: translateY(-4px);
-        }
-
-        .btn-claim {
-            background: var(--yellow);
-            color: var(--bg);
-            transition: transform 0.2s;
-        }
-
-        .btn-claim:hover {
-            transform: scale(1.02);
-        }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
@@ -90,219 +39,537 @@ salin kod) supaya ia berfungsi sepenuhnya sebagai satu laman web yang mantap.
         ::-webkit-scrollbar-thumb { background: var(--ink-dim); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--yellow); }
 
+        /* Marquee Animation */
+        .alert-bar {
+            background: var(--yellow);
+            color: #000;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 10px 0;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .alert-track {
+            display: inline-block;
+            animation: marquee 40s linear infinite;
+        }
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* Card Styling */
+        .plat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--ink-dim);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .plat-card:hover {
+            border-color: var(--yellow);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -15px rgba(255, 229, 0, 0.2);
+        }
+
         .hidden-card { display: none !important; }
+
+        /* Filter Button Active State */
+        .filter-btn.active {
+            background-color: var(--yellow);
+            color: #000;
+            border-color: var(--yellow);
+        }
+
+        /* Pulse Animation for Claim Button */
+        .btn-pulse:hover {
+            box-shadow: 0 0 0 0 rgba(255, 229, 0, 0.7);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 229, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 229, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 229, 0, 0); }
+        }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Top Contact Bar -->
-    <div class="sticky top-0 z-[200] w-full h-12 flex border-b border-yellow-500/30">
+    <!-- Top Sticky Contact -->
+    <div class="sticky top-0 z-[200] w-full h-12 flex border-b border-yellow-500/20">
         <a href="https://wa.link/281cp7" target="_blank" class="flex-1 flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1FBA57] text-black transition-colors">
-            <span class="font-mono text-[11px] font-bold uppercase tracking-widest">WhatsApp Daus</span>
+            <span class="font-mono text-[10px] font-bold uppercase tracking-widest">WhatsApp Daus</span>
         </a>
         <a href="https://t.me/dausdk37" target="_blank" class="flex-1 flex items-center justify-center gap-2 bg-[#0088CC] hover:bg-[#006699] text-white transition-colors">
-            <span class="font-mono text-[11px] font-bold uppercase tracking-widest">Telegram Daus</span>
+            <span class="font-mono text-[10px] font-bold uppercase tracking-widest">Telegram Daus</span>
         </a>
     </div>
 
-    <!-- Promo Marquee -->
+    <!-- Scrolling Promo -->
     <div class="alert-bar">
         <div class="alert-track">
-            <span>🔥 Moomoo: Reward RM1,800 ◆ FSMOne: RM25 + 50% Off Fees ◆ Luno: RM75 BTC Free ◆ ShopeePay: 6% p.a. ◆ Versa: RM10 Reward ◆ </span>
-            <span>🔥 Moomoo: Reward RM1,800 ◆ FSMOne: RM25 + 50% Off Fees ◆ Luno: RM75 BTC Free ◆ ShopeePay: 6% p.a. ◆ Versa: RM10 Reward ◆ </span>
+            <span>◆ Moomoo: Reward RM1,800 ◆ Luno: RM75 BTC FREE ◆ FSMOne: RM25 + 50% Off Fees ◆ Versa: RM10 Reward ◆ ShopeePay: 6% p.a. ◆ BGD: 0.01g Gold Percuma ◆ </span>
+            <span>◆ Moomoo: Reward RM1,800 ◆ Luno: RM75 BTC FREE ◆ FSMOne: RM25 + 50% Off Fees ◆ Versa: RM10 Reward ◆ ShopeePay: 6% p.a. ◆ BGD: 0.01g Gold Percuma ◆ </span>
         </div>
     </div>
 
     <!-- Navigation -->
-    <nav class="border-b border-zinc-800 bg-black/80 backdrop-blur-md sticky top-12 z-[100]">
+    <nav class="border-b border-white/10 bg-black/80 backdrop-blur-md sticky top-12 z-[100]">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <a href="#" class="flex items-center gap-2">
-                <img src="/logos/dausdk.jpeg" alt="Logo" class="w-8 h-8 rounded">
-                <span class="font-anton text-xl tracking-wider text-yellow-400">DAUSDK</span>
+                <img src="/logos/dausdk.jpeg" alt="Logo" class="w-8 h-8 rounded border border-white/20">
+                <span class="font-anton text-2xl tracking-tighter text-yellow-400">DAUSDK</span>
             </a>
-            <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest">
-                <a href="#" class="text-yellow-400">Laman Utama</a>
-                <a href="#" class="hover:text-yellow-400 transition">Community</a>
-                <a href="#" class="hover:text-yellow-400 transition">Hubungi</a>
+            <div class="hidden md:flex gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+                <a href="#platforms" class="hover:text-yellow-400 transition">Platforms</a>
+                <a href="#how-to" class="hover:text-yellow-400 transition">Tutorial</a>
+                <a href="#community" class="hover:text-yellow-400 transition">Community</a>
             </div>
-            <a href="#platforms" class="bg-yellow-400 text-black px-4 py-2 text-[10px] font-bold uppercase tracking-tighter hover:bg-white transition">Mula Melabur ↗</a>
+            <a href="https://wa.me/601153980977" class="border-2 border-yellow-400 text-yellow-400 px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-yellow-400 hover:text-black transition">Kerjasama</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="py-16 px-4 border-b border-zinc-900">
-        <div class="max-w-7xl mx-auto">
-            <h1 class="font-anton text-5xl md:text-7xl uppercase leading-none mb-6">
-                Platform invest Daus guna sendiri — <br>
+    <!-- Hero -->
+    <header class="py-20 px-4 bg-gradient-to-b from-zinc-900/20 to-black">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="font-anton text-5xl md:text-8xl uppercase leading-[0.9] mb-8">
+                Platform invest <br> Daus guna sendiri — <br>
                 <span class="text-yellow-400">claim sekarang.</span>
             </h1>
-            <div class="flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.3em] text-zinc-500">
-                <span class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
-                <span>13 Platform Terverifikasi Live</span>
-            </div>
+            <p class="max-w-2xl mx-auto text-zinc-400 font-mono text-xs uppercase tracking-widest leading-loose">
+                Semua platform invest, crypto, gold, dan savings lengkap dengan referral code dan promo terkini.
+            </p>
         </div>
     </header>
 
-    <!-- Search & Filter -->
-    <section id="platforms" class="py-12 bg-[#0A0A0A]">
+    <!-- Search & Filter Section -->
+    <section id="platforms" class="py-12 border-t border-white/5">
         <div class="max-w-7xl mx-auto px-4">
             
             <!-- Search Bar -->
-            <div class="relative mb-8">
-                <input type="text" id="platformSearch" placeholder="CARI PLATFORM (MOOMOO, LUNO, VERSA...)" 
-                    class="w-full bg-zinc-900/50 border-2 border-yellow-400/20 p-5 font-mono text-sm focus:border-yellow-400 outline-none transition">
+            <div class="relative mb-10">
+                <div class="absolute inset-y-0 left-5 flex items-center pointer-events-none">
+                    <svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                <input type="text" id="platformSearch" placeholder="CARI PLATFORM (MOOMOO, RAKUTEN, VERSA, LUNO...)" 
+                    class="w-full bg-zinc-900 border-2 border-zinc-800 p-5 pl-14 font-mono text-xs focus:border-yellow-400 outline-none transition uppercase tracking-widest text-yellow-400">
             </div>
 
-            <!-- Filter Tabs -->
-            <div class="flex gap-2 mb-12 overflow-x-auto pb-4 no-scrollbar font-mono text-[10px] font-bold uppercase">
-                <button onclick="filterPlats('semua')" class="filter-btn bg-yellow-400 text-black px-6 py-3 border-2 border-yellow-400">Semua</button>
-                <button onclick="filterPlats('saham')" class="filter-btn border-2 border-zinc-700 px-6 py-3 hover:border-yellow-400 transition">Saham</button>
-                <button onclick="filterPlats('shariah')" class="filter-btn border-2 border-zinc-700 px-6 py-3 hover:border-yellow-400 transition">Shariah</button>
-                <button onclick="filterPlats('crypto')" class="filter-btn border-2 border-zinc-700 px-6 py-3 hover:border-yellow-400 transition">Crypto</button>
-                <button onclick="filterPlats('gold')" class="filter-btn border-2 border-zinc-700 px-6 py-3 hover:border-yellow-400 transition">Gold</button>
-                <button onclick="filterPlats('savings')" class="filter-btn border-2 border-zinc-700 px-6 py-3 hover:border-yellow-400 transition">Savings</button>
+            <!-- Filter Buttons -->
+            <div class="flex gap-2 mb-12 overflow-x-auto pb-4 no-scrollbar">
+                <button onclick="filterPlats('all')" class="filter-btn active border-2 border-zinc-800 px-6 py-3 font-mono text-[10px] font-bold uppercase tracking-widest">Semua</button>
+                <button onclick="filterPlats('saham')" class="filter-btn border-2 border-zinc-800 px-6 py-3 font-mono text-[10px] font-bold uppercase tracking-widest">Saham</button>
+                <button onclick="filterPlats('shariah')" class="filter-btn border-2 border-zinc-800 px-6 py-3 font-mono text-[10px] font-bold uppercase tracking-widest">Shariah</button>
+                <button onclick="filterPlats('crypto')" class="filter-btn border-2 border-zinc-800 px-6 py-3 font-mono text-[10px] font-bold uppercase tracking-widest">Crypto</button>
+                <button onclick="filterPlats('gold')" class="filter-btn border-2 border-zinc-800 px-6 py-3 font-mono text-[10px] font-bold uppercase tracking-widest">Gold</button>
+                <button onclick="filterPlats('savings')" class="filter-btn border-2 border-zinc-800 px-6 py-3 font-mono text-[10px] font-bold uppercase tracking-widest">Savings</button>
             </div>
 
-            <!-- Grid Platforms -->
+            <!-- Platform Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="platGrid">
                 
-                <!-- Card: Moomoo -->
-                <article class="plat-card flex flex-col p-6 relative bg-zinc-900/20 group" data-category="saham shariah">
-                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono">Saham</span>
-                    <div class="h-16 flex items-center mb-6">
+                <!-- 1. Moomoo -->
+                <article class="plat-card flex flex-col p-8 relative" data-category="saham shariah">
+                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono tracking-tighter">Saham</span>
+                    <div class="h-12 flex items-center mb-8">
                         <img src="/logos/moomoo.png" alt="Moomoo" class="max-h-full">
                     </div>
-                    <h3 class="font-anton text-3xl uppercase mb-2">MOOMOO MY</h3>
-                    <p class="text-yellow-400 font-bold text-sm mb-4">💰 Reward sehingga RM1,800</p>
-                    <ul class="text-xs text-zinc-400 space-y-2 mb-8 flex-1">
-                        <li>• Min deposit RM0.01 · Zero Fees</li>
-                        <li>• Shariah-compliant Cash Plus</li>
+                    <h3 class="font-anton text-3xl uppercase mb-3">MOOMOO MY</h3>
+                    <p class="text-yellow-400 font-bold text-sm mb-6 font-mono">💰 Reward sehingga RM1,800</p>
+                    <ul class="text-[11px] text-zinc-400 space-y-3 mb-10 flex-1 font-mono uppercase tracking-tight">
+                        <li><span class="text-yellow-400">◆</span> Min deposit RM0.01 · Zero Fees</li>
+                        <li><span class="text-yellow-400">◆</span> Shariah Cash Plus Available</li>
                     </ul>
                     <div class="mt-auto space-y-3">
-                        <div class="bg-black p-3 border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-yellow-400 transition" onclick="copyCode('DAUSDK37')">
-                            <div class="font-mono uppercase">
-                                <p class="text-[8px] text-zinc-500">Referral Code</p>
-                                <p class="text-sm font-bold tracking-widest" id="code-DAUSDK37">DAUSDK37</p>
+                        <div class="bg-black/40 p-4 border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-yellow-400 transition group" onclick="copyCode('DAUSDK37')">
+                            <div>
+                                <p class="text-[8px] text-zinc-500 font-mono uppercase">Code</p>
+                                <p class="text-lg font-bold tracking-widest font-mono text-white">DAUSDK37</p>
                             </div>
-                            <span class="text-[9px] font-bold text-zinc-500">COPY</span>
+                            <span class="text-[9px] font-bold text-zinc-500 group-hover:text-yellow-400 font-mono">COPY</span>
                         </div>
-                        <a href="https://j.moomoo.com/017Fln" target="_blank" class="btn-claim block w-full text-center py-4 font-mono font-bold text-sm uppercase">Claim Sekarang →</a>
+                        <a href="https://j.moomoo.com/017Fln" target="_blank" class="btn-claim btn-pulse block w-full text-center bg-yellow-400 text-black py-4 font-mono font-bold text-xs uppercase tracking-widest">Claim Sekarang →</a>
                     </div>
                 </article>
 
-                <!-- Card: Luno -->
-                <article class="plat-card flex flex-col p-6 relative bg-zinc-900/20 group" data-category="crypto">
-                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono">Crypto</span>
-                    <div class="h-16 flex items-center mb-6">
-                        <img src="/logos/luno.svg" alt="Luno" class="max-h-full bg-white px-2 py-1">
+                <!-- 2. Rakuten -->
+                <article class="plat-card flex flex-col p-8 relative" data-category="saham">
+                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono tracking-tighter">Saham</span>
+                    <div class="h-12 flex items-center mb-8">
+                        <img src="/logos/rakuten.png" alt="Rakuten" class="max-h-full">
                     </div>
-                    <h3 class="font-anton text-3xl uppercase mb-2">LUNO</h3>
-                    <p class="text-yellow-400 font-bold text-sm mb-4">💰 RM75 BTC PERCUMA</p>
-                    <ul class="text-xs text-zinc-400 space-y-2 mb-8 flex-1">
-                        <li>• Beli crypto RM260+ dalam 30 hari</li>
-                        <li>• Regulated oleh Suruhanjaya Sekuriti</li>
+                    <h3 class="font-anton text-3xl uppercase mb-3">RAKUTEN TRADE</h3>
+                    <p class="text-yellow-400 font-bold text-sm mb-6 font-mono">💰 RM30 US Shares FREE</p>
+                    <ul class="text-[11px] text-zinc-400 space-y-3 mb-10 flex-1 font-mono uppercase">
+                        <li><span class="text-yellow-400">◆</span> Brokerage dari RM1 per trade</li>
+                        <li><span class="text-yellow-400">◆</span> Akses Bursa MY, US & HK</li>
                     </ul>
                     <div class="mt-auto space-y-3">
-                        <div class="bg-black p-3 border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-yellow-400 transition" onclick="copyCode('A4GXQJ')">
-                            <div class="font-mono uppercase">
-                                <p class="text-[8px] text-zinc-500">Referral Code</p>
-                                <p class="text-sm font-bold tracking-widest">A4GXQJ</p>
-                            </div>
-                            <span class="text-[9px] font-bold text-zinc-500">COPY</span>
+                        <div class="bg-black/40 p-4 border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-yellow-400 transition group" onclick="copyCode('DAUSDK')">
+                            <div><p class="text-[8px] text-zinc-500 font-mono">Code</p><p class="text-lg font-bold tracking-widest font-mono">DAUSDK</p></div>
+                            <span class="text-[9px] font-bold text-zinc-500 group-hover:text-yellow-400">COPY</span>
                         </div>
-                        <a href="https://www.luno.com/invite/A4GXQJ" target="_blank" class="btn-claim block w-full text-center py-4 font-mono font-bold text-sm uppercase">Claim Sekarang →</a>
+                        <a href="https://www.rakutentrade.my/device/accountopening?mode=web&source=DausDK" target="_blank" class="btn-claim block w-full text-center bg-yellow-400 text-black py-4 font-mono font-bold text-xs uppercase tracking-widest">Claim Sekarang →</a>
                     </div>
                 </article>
 
-                <!-- Card: Wahed -->
-                <article class="plat-card flex flex-col p-6 relative bg-zinc-900/20 group" data-category="shariah">
-                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono">Shariah</span>
-                    <div class="h-16 flex items-center mb-6">
+                <!-- 3. Webull -->
+                <article class="plat-card flex flex-col p-8 relative" data-category="saham shariah">
+                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono tracking-tighter">Saham</span>
+                    <div class="h-12 flex items-center mb-8">
+                        <img src="/logos/webull.svg" alt="Webull" class="max-h-full">
+                    </div>
+                    <h3 class="font-anton text-3xl uppercase mb-3">WEBULL MY</h3>
+                    <p class="text-yellow-400 font-bold text-sm mb-6 font-mono">💰 RM300 Vouchers + 0% Comm</p>
+                    <ul class="text-[11px] text-zinc-400 space-y-3 mb-10 flex-1 font-mono uppercase">
+                        <li><span class="text-yellow-400">◆</span> Fractional shares dari $1</li>
+                        <li><span class="text-yellow-400">◆</span> Islamic Dual Banking tersedia</li>
+                    </ul>
+                    <div class="mt-auto space-y-3">
+                        <div class="bg-black/20 p-4 border border-dashed border-zinc-800 text-center">
+                            <p class="text-[10px] font-bold font-mono text-zinc-500 uppercase">Link Only — Guna Butang Bawah</p>
+                        </div>
+                        <a href="https://www.webull.com.my/k/dausdk37" target="_blank" class="btn-claim block w-full text-center bg-yellow-400 text-black py-4 font-mono font-bold text-xs uppercase tracking-widest">Claim Sekarang →</a>
+                    </div>
+                </article>
+
+                <!-- 4. Luno -->
+                <article class="plat-card flex flex-col p-8 relative" data-category="crypto">
+                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono tracking-tighter">Crypto</span>
+                    <div class="h-12 flex items-center mb-8">
+                        <img src="/logos/luno.svg" alt="Luno" class="max-h-full bg-white p-1">
+                    </div>
+                    <h3 class="font-anton text-3xl uppercase mb-3">LUNO</h3>
+                    <p class="text-yellow-400 font-bold text-sm mb-6 font-mono">💰 RM75 BTC FREE</p>
+                    <ul class="text-[11px] text-zinc-400 space-y-3 mb-10 flex-1 font-mono uppercase">
+                        <li><span class="text-yellow-400">◆</span> Beli crypto RM260 (30 hari)</li>
+                        <li><span class="text-yellow-400">◆</span> SC-Regulated & Staking Weekly</li>
+                    </ul>
+                    <div class="mt-auto space-y-3">
+                        <div class="bg-black/40 p-4 border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-yellow-400 transition group" onclick="copyCode('A4GXQJ')">
+                            <div><p class="text-[8px] text-zinc-500 font-mono">Code</p><p class="text-lg font-bold tracking-widest font-mono">A4GXQJ</p></div>
+                            <span class="text-[9px] font-bold text-zinc-500 group-hover:text-yellow-400">COPY</span>
+                        </div>
+                        <a href="https://www.luno.com/invite/A4GXQJ" target="_blank" class="btn-claim block w-full text-center bg-yellow-400 text-black py-4 font-mono font-bold text-xs uppercase tracking-widest">Claim Sekarang →</a>
+                    </div>
+                </article>
+
+                <!-- 5. FSMOne -->
+                <article class="plat-card flex flex-col p-8 relative" data-category="saham">
+                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono tracking-tighter">Saham</span>
+                    <div class="h-12 flex items-center mb-8">
+                        <img src="/logos/fsmone.jpg" alt="FSMOne" class="max-h-full">
+                    </div>
+                    <h3 class="font-anton text-3xl uppercase mb-3">FSMONE</h3>
+                    <p class="text-yellow-400 font-bold text-sm mb-6 font-mono">💰 RM25 + 50% OFF Fees</p>
+                    <ul class="text-[11px] text-zinc-400 space-y-3 mb-10 flex-1 font-mono uppercase">
+                        <li><span class="text-yellow-400">◆</span> First trade min RM100</li>
+                        <li><span class="text-yellow-400">◆</span> Akses Fund, ETF & Global Bond</li>
+                    </ul>
+                    <div class="mt-auto space-y-3">
+                        <div class="bg-black/40 p-4 border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-yellow-400 transition group" onclick="copyCode('DAUSDK37')">
+                            <div><p class="text-[8px] text-zinc-500 font-mono">Code</p><p class="text-lg font-bold tracking-widest font-mono">DAUSDK37</p></div>
+                            <span class="text-[9px] font-bold text-zinc-500 group-hover:text-yellow-400">COPY</span>
+                        </div>
+                        <a href="https://www.fsmone.com.my/referral/DAUSDK37" target="_blank" class="btn-claim block w-full text-center bg-yellow-400 text-black py-4 font-mono font-bold text-xs uppercase tracking-widest">Claim Sekarang →</a>
+                    </div>
+                </article>
+
+                <!-- 6. Wahed Invest -->
+                <article class="plat-card flex flex-col p-8 relative" data-category="shariah">
+                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono tracking-tighter">Shariah</span>
+                    <div class="h-12 flex items-center mb-8">
                         <img src="/logos/wahed.jpg" alt="Wahed" class="max-h-full">
                     </div>
-                    <h3 class="font-anton text-3xl uppercase mb-2">WAHED INVEST</h3>
-                    <p class="text-yellow-400 font-bold text-sm mb-4">💰 RM10 Welcome Bonus</p>
-                    <ul class="text-xs text-zinc-400 space-y-2 mb-8 flex-1">
-                        <li>• Deposit RM300 untuk bonus</li>
-                        <li>• Robo-advisor 100% Shariah</li>
+                    <h3 class="font-anton text-3xl uppercase mb-3">WAHED INVEST</h3>
+                    <p class="text-yellow-400 font-bold text-sm mb-6 font-mono">💰 RM10 Welcome Bonus</p>
+                    <ul class="text-[11px] text-zinc-400 space-y-3 mb-10 flex-1 font-mono uppercase">
+                        <li><span class="text-yellow-400">◆</span> Deposit RM300 untuk bonus</li>
+                        <li><span class="text-yellow-400">◆</span> 100% Shariah Portfolio</li>
                     </ul>
                     <div class="mt-auto space-y-3">
-                        <div class="bg-black p-3 border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-yellow-400 transition" onclick="copyCode('DAUSDK')">
-                            <div class="font-mono uppercase">
-                                <p class="text-[8px] text-zinc-500">Referral Code</p>
-                                <p class="text-sm font-bold tracking-widest">DAUSDK</p>
-                            </div>
-                            <span class="text-[9px] font-bold text-zinc-500">COPY</span>
+                        <div class="bg-black/40 p-4 border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-yellow-400 transition group" onclick="copyCode('DAUSDK')">
+                            <div><p class="text-[8px] text-zinc-500 font-mono">Code</p><p class="text-lg font-bold tracking-widest font-mono">DAUSDK</p></div>
+                            <span class="text-[9px] font-bold text-zinc-500 group-hover:text-yellow-400">COPY</span>
                         </div>
-                        <a href="https://affiliate.wahed.com/dausdk" target="_blank" class="btn-claim block w-full text-center py-4 font-mono font-bold text-sm uppercase">Claim Sekarang →</a>
+                        <a href="https://affiliate.wahed.com/dausdk" target="_blank" class="btn-claim block w-full text-center bg-yellow-400 text-black py-4 font-mono font-bold text-xs uppercase tracking-widest">Claim Sekarang →</a>
                     </div>
                 </article>
 
-                <!-- Tambah lebih banyak card mengikut format di atas -->
+                <!-- 7. Versa Cash -->
+                <article class="plat-card flex flex-col p-8 relative" data-category="shariah savings">
+                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono tracking-tighter">Savings</span>
+                    <div class="h-12 flex items-center mb-8">
+                        <img src="/logos/versa.png" alt="Versa" class="max-h-full">
+                    </div>
+                    <h3 class="font-anton text-3xl uppercase mb-3">VERSA CASH-I</h3>
+                    <p class="text-yellow-400 font-bold text-sm mb-6 font-mono">💰 RM10 Cash Reward</p>
+                    <ul class="text-[11px] text-zinc-400 space-y-3 mb-10 flex-1 font-mono uppercase">
+                        <li><span class="text-yellow-400">◆</span> First deposit min RM100</li>
+                        <li><span class="text-yellow-400">◆</span> 100% Shariah & Liquid</li>
+                    </ul>
+                    <div class="mt-auto space-y-3">
+                        <div class="bg-black/40 p-4 border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-yellow-400 transition group" onclick="copyCode('VDAUSDK')">
+                            <div><p class="text-[8px] text-zinc-500 font-mono">Code</p><p class="text-lg font-bold tracking-widest font-mono">VDAUSDK</p></div>
+                            <span class="text-[9px] font-bold text-zinc-500 group-hover:text-yellow-400">COPY</span>
+                        </div>
+                        <a href="https://download.versa.com.my/1bAf/vdausdkhome" target="_blank" class="btn-claim block w-full text-center bg-yellow-400 text-black py-4 font-mono font-bold text-xs uppercase tracking-widest">Claim Sekarang →</a>
+                    </div>
+                </article>
+
+                <!-- 8. Hata -->
+                <article class="plat-card flex flex-col p-8 relative" data-category="crypto">
+                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono tracking-tighter">Crypto</span>
+                    <div class="h-12 flex items-center mb-8">
+                        <img src="/logos/hata.svg" alt="Hata" class="max-h-full bg-white p-1">
+                    </div>
+                    <h3 class="font-anton text-3xl uppercase mb-3">HATA</h3>
+                    <p class="text-yellow-400 font-bold text-sm mb-6 font-mono">💰 10% Fee Discount</p>
+                    <ul class="text-[11px] text-zinc-400 space-y-3 mb-10 flex-1 font-mono uppercase">
+                        <li><span class="text-yellow-400">◆</span> Register dengan code 130421</li>
+                        <li><span class="text-yellow-400">◆</span> SC-Regulated · Auto-DCA</li>
+                    </ul>
+                    <div class="mt-auto space-y-3">
+                        <div class="bg-black/40 p-4 border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-yellow-400 transition group" onclick="copyCode('130421')">
+                            <div><p class="text-[8px] text-zinc-500 font-mono">Code</p><p class="text-lg font-bold tracking-widest font-mono">130421</p></div>
+                            <span class="text-[9px] font-bold text-zinc-500 group-hover:text-yellow-400">COPY</span>
+                        </div>
+                        <a href="https://hata.io/signup?ref=130421" target="_blank" class="btn-claim block w-full text-center bg-yellow-400 text-black py-4 font-mono font-bold text-xs uppercase tracking-widest">Claim Sekarang →</a>
+                    </div>
+                </article>
+
+                <!-- 9. ShopeePay Money+ -->
+                <article class="plat-card flex flex-col p-8 relative" data-category="savings shariah">
+                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono tracking-tighter">Savings</span>
+                    <div class="h-12 flex items-center mb-8">
+                        <img src="/logos/shopeepay.png" alt="ShopeePay" class="max-h-full">
+                    </div>
+                    <h3 class="font-anton text-3xl uppercase mb-3">SHOPEEPAY MONEY+</h3>
+                    <p class="text-yellow-400 font-bold text-sm mb-6 font-mono">💰 Up to 6% P.A. · Shariah</p>
+                    <ul class="text-[11px] text-zinc-400 space-y-3 mb-10 flex-1 font-mono uppercase">
+                        <li><span class="text-yellow-400">◆</span> Min deposit RM10 · Daily Returns</li>
+                        <li><span class="text-yellow-400">◆</span> Shariah-compliant · Zero Lock-in</li>
+                    </ul>
+                    <div class="mt-auto space-y-3">
+                        <div class="bg-black/40 p-4 border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-yellow-400 transition group" onclick="copyCode('HJBSXCC7S')">
+                            <div><p class="text-[8px] text-zinc-500 font-mono">Code</p><p class="text-lg font-bold tracking-widest font-mono text-[16px]">HJBSXCC7S</p></div>
+                            <span class="text-[9px] font-bold text-zinc-500 group-hover:text-yellow-400">COPY</span>
+                        </div>
+                        <a href="https://shopeepay.com.my" target="_blank" class="btn-claim block w-full text-center bg-yellow-400 text-black py-4 font-mono font-bold text-xs uppercase tracking-widest">Claim Sekarang →</a>
+                    </div>
+                </article>
+
+                <!-- 10. Aeon Bank -->
+                <article class="plat-card flex flex-col p-8 relative" data-category="savings shariah">
+                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono tracking-tighter">Savings</span>
+                    <div class="h-12 flex items-center mb-8">
+                        <img src="/logos/aeon-bank.svg" alt="Aeon" class="max-h-full">
+                    </div>
+                    <h3 class="font-anton text-3xl uppercase mb-3">AEON BANK</h3>
+                    <p class="text-yellow-400 font-bold text-sm mb-6 font-mono">💰 3% P.A. Savings Pot</p>
+                    <ul class="text-[11px] text-zinc-400 space-y-3 mb-10 flex-1 font-mono uppercase">
+                        <li><span class="text-yellow-400">◆</span> Register guna code AB389070</li>
+                        <li><span class="text-yellow-400">◆</span> Digital Bank Islamic MY</li>
+                    </ul>
+                    <div class="mt-auto space-y-3">
+                        <div class="bg-black/40 p-4 border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-yellow-400 transition group" onclick="copyCode('AB389070')">
+                            <div><p class="text-[8px] text-zinc-500 font-mono">Code</p><p class="text-lg font-bold tracking-widest font-mono">AB389070</p></div>
+                            <span class="text-[9px] font-bold text-zinc-500 group-hover:text-yellow-400">COPY</span>
+                        </div>
+                        <a href="https://www.aeonbank.com.my" target="_blank" class="btn-claim block w-full text-center bg-yellow-400 text-black py-4 font-mono font-bold text-xs uppercase tracking-widest">Claim Sekarang →</a>
+                    </div>
+                </article>
+
+                <!-- 11. Ryt Bank -->
+                <article class="plat-card flex flex-col p-8 relative" data-category="savings">
+                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono tracking-tighter">Savings</span>
+                    <div class="h-12 flex items-center mb-8">
+                        <img src="/logos/rytbank.jpg" alt="Ryt" class="max-h-full">
+                    </div>
+                    <h3 class="font-anton text-3xl uppercase mb-3">RYT BANK</h3>
+                    <p class="text-yellow-400 font-bold text-sm mb-6 font-mono">💰 Angpau Up To RM99</p>
+                    <ul class="text-[11px] text-zinc-400 space-y-3 mb-10 flex-1 font-mono uppercase">
+                        <li><span class="text-yellow-400">◆</span> 4% p.a. untuk RM20k pertama</li>
+                        <li><span class="text-yellow-400">◆</span> AI-Powered Digital Bank MY</li>
+                    </ul>
+                    <div class="mt-auto space-y-3">
+                        <div class="bg-black/20 p-4 border border-dashed border-zinc-800 text-center">
+                            <p class="text-[10px] font-bold font-mono text-zinc-500 uppercase">Link Only — Guna Butang Bawah</p>
+                        </div>
+                        <a href="https://www.rytbank.my" target="_blank" class="btn-claim block w-full text-center bg-yellow-400 text-black py-4 font-mono font-bold text-xs uppercase tracking-widest">Claim Sekarang →</a>
+                    </div>
+                </article>
+
+                <!-- 12. Versa Gold -->
+                <article class="plat-card flex flex-col p-8 relative" data-category="gold shariah">
+                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono tracking-tighter">Gold</span>
+                    <div class="h-12 flex items-center mb-8">
+                        <img src="/logos/versa.png" alt="Versa Gold" class="max-h-full">
+                    </div>
+                    <h3 class="font-anton text-3xl uppercase mb-3">VERSA GOLD</h3>
+                    <p class="text-yellow-400 font-bold text-sm mb-6 font-mono">💰 RM10 Cash Reward</p>
+                    <ul class="text-[11px] text-zinc-400 space-y-3 mb-10 flex-1 font-mono uppercase">
+                        <li><span class="text-yellow-400">◆</span> First deposit min RM100</li>
+                        <li><span class="text-yellow-400">◆</span> Gold ETF-backed · Shariah</li>
+                    </ul>
+                    <div class="mt-auto space-y-3">
+                        <div class="bg-black/40 p-4 border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-yellow-400 transition group" onclick="copyCode('VDAUSDK')">
+                            <div><p class="text-[8px] text-zinc-500 font-mono">Code</p><p class="text-lg font-bold tracking-widest font-mono">VDAUSDK</p></div>
+                            <span class="text-[9px] font-bold text-zinc-500 group-hover:text-yellow-400">COPY</span>
+                        </div>
+                        <a href="https://download.versa.com.my/1bAf/vdausdkhome" target="_blank" class="btn-claim block w-full text-center bg-yellow-400 text-black py-4 font-mono font-bold text-xs uppercase tracking-widest">Claim Sekarang →</a>
+                    </div>
+                </article>
+
+                <!-- 13. BGD Gold -->
+                <article class="plat-card flex flex-col p-8 relative" data-category="gold">
+                    <span class="absolute top-4 right-4 text-[9px] font-bold border border-yellow-400 text-yellow-400 px-2 py-1 uppercase font-mono tracking-tighter">Gold</span>
+                    <div class="h-12 flex items-center mb-8">
+                        <div class="font-anton text-2xl border-2 border-yellow-400 p-2">BGD GOLD</div>
+                    </div>
+                    <h3 class="font-anton text-3xl uppercase mb-3">BGD GOLD</h3>
+                    <p class="text-yellow-400 font-bold text-sm mb-6 font-mono">💰 0.01g Gold Percuma</p>
+                    <ul class="text-[11px] text-zinc-400 space-y-3 mb-10 flex-1 font-mono uppercase">
+                        <li><span class="text-yellow-400">◆</span> Top-up RM100 dapat gold</li>
+                        <li><span class="text-yellow-400">◆</span> Platform Simpanan Emas Digital</li>
+                    </ul>
+                    <div class="mt-auto space-y-3">
+                        <div class="bg-black/20 p-4 border border-dashed border-zinc-800 text-center">
+                            <p class="text-[10px] font-bold font-mono text-zinc-500 uppercase">Link Only — Guna Butang Bawah</p>
+                        </div>
+                        <a href="#" target="_blank" class="btn-claim block w-full text-center bg-yellow-400 text-black py-4 font-mono font-bold text-xs uppercase tracking-widest">Claim Sekarang →</a>
+                    </div>
+                </article>
 
             </div>
         </div>
     </section>
 
+    <!-- Social Footprint -->
+    <section class="py-20 bg-zinc-900/10 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
+                <div>
+                    <h2 class="font-anton text-5xl uppercase mb-2">Ikut Daus <span class="text-yellow-400">Live</span>.</h2>
+                    <p class="text-zinc-500 font-mono text-[10px] uppercase tracking-widest">Market update & DCA Journey harian.</p>
+                </div>
+                <div class="text-right">
+                    <p class="font-anton text-6xl text-yellow-400">619K+</p>
+                    <p class="text-zinc-500 font-mono text-[10px] uppercase">Total Community Reach</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <a href="https://youtube.com/@dausdk" target="_blank" class="bg-zinc-900 p-6 border border-zinc-800 hover:border-red-600 transition group">
+                    <p class="text-red-600 font-bold font-mono text-[10px] mb-4 uppercase">YouTube</p>
+                    <p class="font-anton text-4xl mb-2 group-hover:text-red-600">169K</p>
+                    <p class="text-zinc-500 text-[10px] font-mono uppercase">Subscribers</p>
+                </a>
+                <a href="https://www.tiktok.com/@dausdkofficial" target="_blank" class="bg-zinc-900 p-6 border border-zinc-800 hover:border-cyan-400 transition group">
+                    <p class="text-cyan-400 font-bold font-mono text-[10px] mb-4 uppercase">TikTok</p>
+                    <p class="font-anton text-4xl mb-2 group-hover:text-cyan-400">156K</p>
+                    <p class="text-zinc-500 text-[10px] font-mono uppercase">Followers</p>
+                </a>
+                <a href="https://www.tiktok.com/@dausdk37" target="_blank" class="bg-zinc-900 p-6 border border-zinc-800 hover:border-cyan-400 transition group">
+                    <p class="text-cyan-400 font-bold font-mono text-[10px] mb-4 uppercase">TikTok (Backup)</p>
+                    <p class="font-anton text-4xl mb-2 group-hover:text-cyan-400">154K</p>
+                    <p class="text-zinc-500 text-[10px] font-mono uppercase">Followers</p>
+                </a>
+                <a href="https://instagram.com/dausdk37" target="_blank" class="bg-zinc-900 p-6 border border-zinc-800 hover:border-pink-500 transition group">
+                    <p class="text-pink-500 font-bold font-mono text-[10px] mb-4 uppercase">Instagram</p>
+                    <p class="font-anton text-4xl mb-2 group-hover:text-pink-500">140K</p>
+                    <p class="text-zinc-500 text-[10px] font-mono uppercase">Followers</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How To -->
+    <section id="how-to" class="py-20 border-t border-white/5 bg-black">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="font-anton text-5xl uppercase text-center mb-16">3 Step. <span class="text-yellow-400">Senang</span> Jer.</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="text-center">
+                    <div class="font-anton text-6xl text-zinc-800 mb-6">01</div>
+                    <h4 class="font-anton text-xl uppercase mb-4">Pilih Platform</h4>
+                    <p class="text-zinc-500 text-sm leading-relaxed">Scroll kategori yang korang nak. Daus dah filter siap-siap ikut risk profile korang.</p>
+                </div>
+                <div class="text-center">
+                    <div class="font-anton text-6xl text-zinc-800 mb-6">02</div>
+                    <h4 class="font-anton text-xl uppercase mb-4">Copy & Link</h4>
+                    <p class="text-zinc-500 text-sm leading-relaxed">Klik butang Copy pada code. Klik Claim Sekarang untuk buka page pendaftaran rasmi.</p>
+                </div>
+                <div class="text-center">
+                    <div class="font-anton text-6xl text-zinc-800 mb-6">03</div>
+                    <h4 class="font-anton text-xl uppercase mb-4">Mula Melabur</h4>
+                    <p class="text-zinc-500 text-sm leading-relaxed">Fulfill syarat promo (deposit min/trade). Kadang reward masuk instant, kadang 30 hari.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
-    <footer class="py-20 px-4 border-t border-zinc-900 bg-black">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div class="col-span-1 md:col-span-2">
-                <div class="flex items-center gap-2 mb-6">
+    <footer class="py-20 border-t border-white/5 bg-zinc-950">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="col-span-2">
+                <div class="flex items-center gap-2 mb-8">
                     <img src="/logos/dausdk.jpeg" alt="Logo" class="w-10 h-10 rounded">
                     <span class="font-anton text-3xl tracking-wider text-yellow-400">DAUSDK</span>
                 </div>
-                <p class="text-zinc-500 text-sm max-w-md leading-relaxed">
-                    Financial & geopolitical education untuk rakyat Malaysia. Semua platform dalam page ni Daus guna sendiri — referral code bagi advantage untuk korang, komisen untuk Daus.
+                <p class="text-zinc-500 text-xs leading-loose max-w-md font-mono uppercase">
+                    Financial & geopolitical education untuk rakyat Malaysia. <br> Page ini mengandungi link affiliate. Daus dapat komisen, korang dapat promo bonus. Menang-menang.
                 </p>
             </div>
             <div>
-                <h5 class="font-anton text-xl uppercase mb-6">Navigasi</h5>
-                <ul class="text-zinc-400 text-sm space-y-4 font-mono uppercase">
-                    <li><a href="#" class="hover:text-yellow-400">Tentang Kami</a></li>
-                    <li><a href="#" class="hover:text-yellow-400">YouTube @dausdk</a></li>
-                    <li><a href="#" class="hover:text-yellow-400">TikTok @dausdk37</a></li>
+                <h5 class="font-anton text-xl uppercase text-yellow-400 mb-8">Hubungi</h5>
+                <ul class="text-zinc-400 text-xs space-y-4 font-mono uppercase tracking-widest">
+                    <li><a href="https://wa.link/281cp7" class="hover:text-yellow-400">WhatsApp Daus</a></li>
+                    <li><a href="mailto:hello@dausdk.com" class="hover:text-yellow-400">Email hello@dausdk.com</a></li>
+                    <li><a href="#" class="hover:text-yellow-400">Kerjasama Brand</a></li>
                 </ul>
             </div>
             <div>
-                <h5 class="font-anton text-xl uppercase mb-6">Bantuan</h5>
-                <ul class="text-zinc-400 text-sm space-y-4 font-mono uppercase">
-                    <li><a href="#" class="hover:text-yellow-400">WhatsApp Team</a></li>
-                    <li><a href="#" class="hover:text-yellow-400">Email hello@dausdk.com</a></li>
+                <h5 class="font-anton text-xl uppercase text-yellow-400 mb-8">Komuniti</h5>
+                <ul class="text-zinc-400 text-xs space-y-4 font-mono uppercase tracking-widest">
+                    <li><a href="#" class="hover:text-yellow-400">WhatsApp Group (Free)</a></li>
+                    <li><a href="#" class="hover:text-yellow-400">Signal Updates</a></li>
+                    <li><a href="#" class="hover:text-yellow-400">DCA Gang</a></li>
                 </ul>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto mt-20 pt-8 border-t border-zinc-900 text-[10px] font-mono text-zinc-600 uppercase tracking-widest flex flex-col md:flex-row justify-between gap-4">
-            <p>© 2026 DAUSDK · KUALA LUMPUR</p>
-            <p>Not Financial Advice · DYOR · Affiliate Disclosure</p>
+        <div class="max-w-7xl mx-auto mt-20 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between gap-6">
+            <p class="text-[9px] font-mono text-zinc-600 uppercase tracking-widest">© 2026 DAUSDK · KUALA LUMPUR</p>
+            <p class="text-[9px] font-mono text-zinc-600 uppercase tracking-widest leading-relaxed max-w-xl md:text-right">
+                Disclaimer: Bukan Financial Advice. DYOR sebelum melabur. Risiko tanggung sendiri.
+            </p>
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- JavaScript Functions -->
     <script>
-        // 1. Fungsi Salin Kod Referral
+        // 1. Copy Code Function
         function copyCode(code) {
             navigator.clipboard.writeText(code).then(() => {
-                alert("Kod " + code + " telah disalin ke clipboard!");
+                alert("Referral Code [" + code + "] telah disalin!");
+            }).catch(err => {
+                console.error('Gagal menyalin: ', err);
             });
         }
 
-        // 2. Fungsi Filter Kategori
+        // 2. Filter Category Function
         function filterPlats(category) {
             const cards = document.querySelectorAll('#platGrid article');
             const buttons = document.querySelectorAll('.filter-btn');
 
-            // Update UI Button
-            buttons.forEach(btn => {
-                btn.classList.remove('bg-yellow-400', 'text-black');
-                btn.classList.add('text-zinc-400');
-            });
-            event.target.classList.add('bg-yellow-400', 'text-black');
+            // Update Active Class pada Button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
 
-            // Logic Filter
+            // Hide/Show Cards
             cards.forEach(card => {
-                const cats = card.getAttribute('data-category');
-                if (category === 'semua' || cats.includes(category)) {
+                const cardCats = card.getAttribute('data-category');
+                if (category === 'all' || cardCats.includes(category)) {
                     card.classList.remove('hidden-card');
                 } else {
                     card.classList.add('hidden-card');
@@ -310,14 +577,20 @@ salin kod) supaya ia berfungsi sepenuhnya sebagai satu laman web yang mantap.
             });
         }
 
-        // 3. Fungsi Carian Live
+        // 3. Search Function
         document.getElementById('platformSearch').addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase();
             const cards = document.querySelectorAll('#platGrid article');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            // Reset filter buttons to 'All'
+            buttons.forEach(btn => btn.classList.remove('active'));
+            buttons[0].classList.add('active');
 
             cards.forEach(card => {
                 const name = card.querySelector('h3').innerText.toLowerCase();
-                if (name.includes(query)) {
+                const reward = card.querySelector('p').innerText.toLowerCase();
+                if (name.includes(query) || reward.includes(query)) {
                     card.classList.remove('hidden-card');
                 } else {
                     card.classList.add('hidden-card');
@@ -328,26 +601,3 @@ salin kod) supaya ia berfungsi sepenuhnya sebagai satu laman web yang mantap.
 
 </body>
 </html>
-
-Apa yang telah diperbaiki:
-
-1.  Struktur HTML5 Semantik: Menggunakan <header>, <nav>, <section>, <article>,
-    dan <footer> yang betul untuk SEO dan aksesibiliti.
-2.  Pembersihan Skrip Next.js: Semua kod JSON dan skrip hidrasi yang mengganggu
-    telah dibuang.
-3.  Tailwind CSS (CDN): Saya mengekalkan reka bentuk asal anda tetapi
-    menggunakan Tailwind untuk memastikan susun atur (layout) responsif dan
-    kemas.
-4.  Sistem Filter Berfungsi: Butang kategori (Saham, Crypto, dll) kini berfungsi
-    menggunakan JavaScript ringkas di bahagian bawah fail.
-5.  Carian Live: Input carian kini berfungsi secara masa nyata (real-time) untuk
-    menapis kad platform.
-6.  Butang Salin Kod (Copy Code): Menambah fungsi navigator.clipboard supaya
-    pengguna boleh klik dan terus salin kod referral.
-7.  Reka Bentuk Responsif: Grid platform akan berubah dari 1 kolum (mobile)
-    kepada 3 kolum (desktop) secara automatik.
-8.  Google Fonts: Pautan ke font Anton dan JetBrains Mono telah disertakan untuk
-    mengekalkan identiti visual "DAUSDK".
-
-Nota: Pastikan anda menukar pautan imej (seperti /logos/moomoo.png) kepada URL
-yang betul jika imej tidak muncul.
